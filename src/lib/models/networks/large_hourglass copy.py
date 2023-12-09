@@ -255,7 +255,7 @@ class kp_module(nn.Module):
 
     def forward(self, rgb_input, ir_input):
         rgb_up1 = self.rgb_up1(rgb_input)
-        rgb_max1 = self.rgb_max1(rgb_input)
+        rgb_max1 = self.rgb_max1(rgb_input)#사실상 max는 의미 없음
 
         ir_up1 = self.ir_up1(ir_input)
         ir_max1 = self.ir_max1(ir_input)
