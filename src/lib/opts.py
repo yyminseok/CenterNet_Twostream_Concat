@@ -15,7 +15,7 @@ class opts(object):
                                  help='ctdet | ddd | multi_pose | exdet')
         self.parser.add_argument('--dataset', default='coco',
                                  help='coco | kitti | coco_hp | pascal')
-        self.parser.add_argument('--exp_id', default='llvip')  # default
+        self.parser.add_argument('--exp_id', default='test')  # default
         self.parser.add_argument('--test', action='store_true')
 
         # 23.03.10 추가 데이터셋 종류 선택
@@ -28,10 +28,11 @@ class opts(object):
                                       '2: show the network output features'
                                       '3: use matplot to display'  # useful when lunching training with ipython notebook
                                       '4: save all visualizations to disk')
-        self.parser.add_argument('--demo', default='D:/CenterNet_PIAFusion/data/yjh_kaist_coco_rgb',  # D:/EfficientDet/data/kaist/yjh_kaist_coco_rgb
+        self.parser.add_argument('--demo', default='',
                                  help='path to image/ image folders/ video. '
                                       'or "webcam"')
-        self.parser.add_argument('--load_model', default='D:/CenterNet/CenterNet_twostream_concat/exp/ctdet/llvip/model_best.pth',  # 수정 D:/CenterNet_PIAFusion/models/ctdet_coco_hg.pth
+        # pretrained model 가중치: D:/ms_code/CenterNet/Pretraind_model_CenterNet/ctdet_coco_hg.pth
+        self.parser.add_argument('--load_model', default='D:/ms_code/CenterNet/Pretraind_model_CenterNet/ctdet_coco_hg.pth',  
                                  help='path to pretrained model')
         self.parser.add_argument('--resume', action='store_true',
                                  help='resume an experiment. '
