@@ -28,22 +28,29 @@ class CTDetDataset(data.Dataset):
         return border // i
 
     def __getitem__(self, index):
+        
+        # 이미지 및 어노테이션 불러오기
         img_id = self.images[index]
         file_name = self.coco.loadImgs(ids=[img_id])[0]['file_name']
 
+        # IR 및 RGB 이미지 경로 설정
         IR_img_path = os.path.join(self.IR_img_dir, file_name)
         RGB_img_path = os.path.join(self.RGB_img_dir, file_name)
 
+        # COCO 어노테이션 불러오기
         ann_ids = self.coco.getAnnIds(imgIds=[img_id])
         anns = self.coco.loadAnns(ids=ann_ids)
         num_objs = min(len(anns), self.max_objs)
 
+        # IR 및 RGB 이미지 읽기
         IR_img = cv2.imread(IR_img_path)
         RGB_img = cv2.imread(RGB_img_path)
 
+        # 이미지 크기 설정
         IR_height, IR_width = IR_img.shape[0], IR_img.shape[1]
         RGB_height, RGB_width = RGB_img.shape[0], RGB_img.shape[1]
 
+        # 이미지 중심 설정
         IR_c = np.array(
             [IR_img.shape[1] / 2., IR_img.shape[0] / 2.], dtype=np.float32)
         if self.opt.keep_res:
