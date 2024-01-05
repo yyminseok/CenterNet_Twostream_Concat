@@ -49,14 +49,14 @@ class COCO(data.Dataset):
                 self.annot_path = os.path.join(
                     self.ano_dir, 'annotations',
                     'instances_extreme_{}2017.json').format(split)
-            else:
+            else: #ctdet
                 self.annot_path = os.path.join(
                     self.ano_dir, 'annotations',
                     'instances_{}2017.json').format(split)
         self.max_objs = 100
 
-        self.class_name = ['person']
-        self._valid_ids = [1]
+        self.class_name = ['person'] #클래스 이름
+        self._valid_ids = [1] #클래스 갯수
 
         self.cat_ids = {v: i for i, v in enumerate(self._valid_ids)}
         self.voc_color = [(v // 32 * 64 + 64, (v // 8) % 4 * 64, v % 8 * 32)
@@ -117,9 +117,6 @@ class COCO(data.Dataset):
                   open('{}/results.json'.format(save_dir), 'w'))
 
     def run_eval(self, results, save_dir):
-        # result_json = os.path.join(save_dir, "results.json")
-        # detections  = self.convert_eval_format(results)
-        # json.dump(detections, open(result_json, "w"))
         self.save_results(results, save_dir)
         coco_dets = self.coco.loadRes('{}/results.json'.format(save_dir))
         coco_eval = COCOeval(self.coco, coco_dets, "bbox")
