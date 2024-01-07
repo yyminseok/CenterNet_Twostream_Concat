@@ -69,7 +69,7 @@ class CtdetLoss(torch.nn.Module):
                 off_loss += self.crit_reg(output['reg'], batch['reg_mask'],
                                           batch['ind'], batch['reg']) / opt.num_stacks
 
-        ############이부분에 loss를 추가 해보자!!#########
+        
         loss = opt.hm_weight * hm_loss + opt.wh_weight * wh_loss + \
             opt.off_weight * off_loss
         loss_stats = {'loss': loss, 'hm_loss': hm_loss,
