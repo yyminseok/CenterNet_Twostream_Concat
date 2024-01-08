@@ -195,7 +195,7 @@ class cmFM(nn.Module):
         return out
 
 
-def CMDAF(vi_feature, ir_feature):
+def CMDAF(vi_feature, ir_feature): #기존 PIAFusion
     sigmoid = nn.Sigmoid()
     gap = nn.AdaptiveAvgPool2d(1)
     batch_size, channels, _, _ = vi_feature.size()
@@ -203,6 +203,19 @@ def CMDAF(vi_feature, ir_feature):
     vi_ir_div = sub_vi_ir * sigmoid(gap(sub_vi_ir))
     sub_ir_vi = ir_feature - vi_feature
     ir_vi_div = sub_ir_vi * sigmoid(gap(sub_ir_vi))
+    vi_feature = vi_feature + ir_vi_div
+    ir_feature = ir_feature + vi_ir_div
+    return vi_feature, ir_feature
+
+def CAF(vi_feature, ir_feature):  # Cross-Attention Fusion Module(국내 저널)
+    sigmoid = nn.Sigmoid()
+    gap = nn.AdaptiveAvgPool2d(1)
+    gmp = nn.AdaptiveMaxPool2d(1)
+    batch_size, channels, _, _ = vi_feature.size()
+    sub_vi_ir = vi_feature - ir_feature
+    vi_ir_div = sub_vi_ir * sigmoid(gap(sub_vi_ir) + gmp(sub_vi_ir))
+    sub_ir_vi = ir_feature - vi_feature
+    ir_vi_div = sub_ir_vi * sigmoid(gap(sub_ir_vi) + gmp(sub_ir_vi))
     vi_feature = vi_feature + ir_vi_div
     ir_feature = ir_feature + vi_ir_div
     return vi_feature, ir_feature
